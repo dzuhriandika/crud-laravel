@@ -13,3 +13,6 @@
 
 Route::resource('books','BookController');
 Route::post('/books/create','BookController@store');
+Route::get('/books/edit/{id}','BookController@edit');
+Route::post('/books/update','BookController@update');
+Route::get('/boooks/hapus/{id}','BookController@hapus');

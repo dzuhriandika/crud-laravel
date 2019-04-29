@@ -47,50 +47,40 @@ class BookController extends Controller
         'pengarang' => $request->pengarang
     ]);
     // alihkan halaman ke halaman home
-    return redirect('/books');    }
+    return redirect('/books');
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+      // method untuk edit data pegawai
     public function edit($id)
     {
-        //
+    // mengambil data pegawai berdasarkan id yang dipilih
+    $buku = DB::table('bukus')->where('id',$id)->get();
+    // passing data pegawai yang didapat ke view edit.blade.php
+    return view('edit',['buku' => $buku]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+        // update data pegawai
+    public function update(Request $request)
     {
-        //
+    	// update data pegawai
+    	DB::table('bukus')->where('id',$request->id)->update([
+        'judul' => $request->judul,
+        'penerbit' => $request->penerbit,
+        'tahun_terbit' => $request->tahun_terbit,
+        'pengarang' => $request->pengarang
+    	]);
+    	// alihkan halaman ke halaman pegawai
+    	return redirect('/books');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+          // method untuk hapus data pegawai
+      public function hapus($id)
+      {
+      	// menghapus data pegawai berdasarkan id yang dipilih
+      	DB::table('bukus')->where('id',$id)->delete();
+
+      	// alihkan halaman ke halaman pegawai
+      	return redirect('/books');
+      }
+
 }
