@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>dzuhriandika</title>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>Index Page</title>
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  </head>
+  <body>
+    <center><h1>PERPUSTAKAAN</h1></center><br>
+    <center><h2>TABEL BUKU</h2></center>
+    <div class="container">
+    <br />
+    @if (\Session::has('success'))
+      <div class="alert alert-success">
+        <p>{{ \Session::get('success') }}</p>
+      </div><br />
+     @endif
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Judul Buku</th>
+        <th>Penerbit</th>
+        <th>Tahun Terbit</th>
+        <th>Pengarang</th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
 
-	<h1>Data Buku</h1>
+      @foreach($bukus as $buku)
+      <tr>
+        <td>{{$buku['id']}}</td>
+        <td>{{$buku['judul']}}</td>
+        <td>{{$buku['penerbit']}}</td>
+        <td>{{$buku['tahun_terbit']}}</td>
+        <td>{{$buku['pengarang']}}</td>
 
-	<a href="/books/create"> + Tambah Buku Baru</a>
-
-	<br/>
-	<br/>
-
-	<table border="1">
-		<tr>
-			<th>id</th>
-			<th>Judul</th>
-			<th>penerbit</th>
-			<th>tahun_terbit</th>
-      <th>pengarang</th>
-			<th>Opsi</th>
-		</tr>
-    @foreach($buku as $b)
-    <tr>
-        <td>{{$b->id}}</td>
-        <td>{{$b->judul}}</td>
-        <td>{{$b->penerbit}}</td>
-        <td>{{$b->tahun_terbit}}</td>
-        <td>{{$b->pengarang}}</td>
+        <td><a href="{{action('BookController@edit', $buku['id'])}}" class="btn btn-warning">Edit</a></td>
         <td>
-        <a href="/books/edit/{{ $b->id }}">Edit</a>
-        |
-        <a href="/books/hapus/{{ $b->id }}">Hapus</a>
-      </td>
-    </tr>
-    @endforeach
-</table>
-</body>
+          <form action="{{action('BookController@destroy', $buku['id'])}}" method="post">
+            @csrf
+            <input name="_method" type="hidden" value="DELETE">
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+  </div>
+    <center><a href="/books/create"> + Tambah Buku Baru</a></center>
+  </body>
 </html>

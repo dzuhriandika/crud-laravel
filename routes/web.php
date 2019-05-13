@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,9 +9,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('welcome');
+  });
 
 Route::resource('books','BookController');
 Route::post('/books/create','BookController@store');
 Route::get('/books/edit/{id}','BookController@edit');
-Route::post('/books/update','BookController@update');
-Route::get('/boooks/hapus/{id}','BookController@hapus');
+Route::post('/books/edit/','BookController@update');
+Route::delete('/books/hapus/{id}','BookController@destroy');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

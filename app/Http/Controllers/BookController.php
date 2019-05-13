@@ -1,13 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Buku;
-
 use DB;
-
 class BookController extends Controller
 {
     /**
@@ -17,10 +12,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $data['buku'] = Buku::all();
-        return view('index',$data);
+        $bukus=\App\Buku::all();
+        return view('index',compact('bukus'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -30,7 +24,6 @@ class BookController extends Controller
     {
         return view('create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -39,30 +32,48 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-    // insert data ke table buku
-    DB::table('bukus')->insert([
-        'judul' => $request->judul,
-        'penerbit' => $request->penerbit,
-        'tahun_terbit' => $request->tahun_terbit,
-        'pengarang' => $request->pengarang
-    ]);
-    // alihkan halaman ke halaman home
-    return redirect('/books');
-  }
+        $bukus = new \App\Buku;
+        $bukus->judul = $request->get('judul');
+        $bukus->penerbit = $request->get('penerbit');
+        $bukus->tahun_terbit = $request->get('tahun_terbit');
+        $bukus->pengarang = $request->get('pengarang');
+        $bukus->save();
 
-      // method untuk edit data pegawai
+        return redirect('books')->with('success', 'Alhamdulillah Data Sudah Di Tambahkan');
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-    // mengambil data pegawai berdasarkan id yang dipilih
-    $buku = DB::table('bukus')->where('id',$id)->get();
-    // passing data pegawai yang didapat ke view edit.blade.php
-    return view('edit',['buku' => $buku]);
+        // mengambil data pegawai berdasarkan id yang dipilih
+        $buku = DB::table('bukus')->where('id',$id)->get();
+        // passing data pegawai yang didapat ke view edit.blade.php
+        return view('edit',['buku' => $buku]);
     }
-
-        // update data pegawai
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request)
     {
-    	// update data pegawai
+        /// update data pegawai
     	DB::table('bukus')->where('id',$request->id)->update([
         'judul' => $request->judul,
         'penerbit' => $request->penerbit,
@@ -72,15 +83,25 @@ class BookController extends Controller
     	// alihkan halaman ke halaman pegawai
     	return redirect('/books');
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+      /*
+      $book = \app\Buku::find($id);
+      $book->destroy();
+      return redirect('books')->with('success','Data buku telah di hapus');
+    }
 
-          // method untuk hapus data pegawai
-      public function hapus($id)
-      {
-      	// menghapus data pegawai berdasarkan id yang dipilih
-      	DB::table('bukus')->where('id',$id)->delete();
+    */// method untuk hapus data pegawai
+    $posts = Buku::find($id);
 
-      	// alihkan halaman ke halaman pegawai
-      	return redirect('/books');
+        $posts->delete();
+        return back()->with('succes', 'deleted data');
       }
 
 }

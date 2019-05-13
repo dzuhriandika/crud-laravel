@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Tutorial Membuat CRUD Pada Laravel</title>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>Laravel CRUD BIMILLAH</title>
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+  </head>
+  <body>
+    <div class="container">
+      <h1> </h1><br/>
+      <form method="post" action="{{url('books')}}" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+            <label for="Judul">Judul buku:</label>
+            <input type="text" class="form-control" name="judul">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="form-group col-md-4">
+              <label for="Penerbit">Penerbit:</label>
+              <input type="text" class="form-control" name="penerbit">
+            </div>
+        </div>
 
-  <h1>Tambah Buku</h1>
-
-  <a href="/books"> Kembali</a>
-
-  <br/>
-  <br/>
-
-  <form action="/books/create" method="post">
-    {{ csrf_field() }}
-    <span>Judul Buku</span><br><br>
-    <input type="text" name="judul" required="required"> <br/>
-    <br>
-    <span>Penerbit</span><br><br>
-    <input type="text" name="penerbit" required="required"> <br/>
-    <br>
-    <span>Tahun Terbit</span><br><br>
-    <input type="text" name="tahun_terbit" required="required"> <br/>
-    <br>
-    <span>Pengarang</span> <br><br>
-    <input type="text" name="pengarang" required="required"> <br/>
-    <input type="submit" value="Simpan Data" style="margin-top: 30px;width:280px;">
-  </form>
-
-</body>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+            <label for="Tahun Terbit">Tahun Terbit:</label>
+            <input type="text" class="form-control" name="tahun_terbit">
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+            <label for="Pengarang">Pengarang:</label>
+            <input type="text" class="form-control" name="pengarang">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4" style="margin-top:60px">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
